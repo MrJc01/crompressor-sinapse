@@ -1,0 +1,20 @@
+{"timestamp":"2026-04-07T12:00:01Z","level":"INFO","service":"crompressor-sinapse","message":"Server started on port 8080","component":"http","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:02Z","level":"INFO","service":"crompressor-sinapse","message":"CDC engine initialized","component":"cdc","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:03Z","level":"INFO","service":"crompressor-sinapse","message":"Codebook loaded: 15000 entries","component":"codebook","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:04Z","level":"DEBUG","service":"crompressor-sinapse","message":"Processing file: main.go","component":"analyzer","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:05Z","level":"DEBUG","service":"crompressor-sinapse","message":"Processing file: handler.go","component":"analyzer","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:06Z","level":"INFO","service":"crompressor-sinapse","message":"Analysis complete: 120 chunks, 80 unique","component":"analyzer","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:07Z","level":"WARN","service":"crompressor-sinapse","message":"High entropy detected in binary segment","component":"cdc","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:08Z","level":"INFO","service":"crompressor-sinapse","message":"Report generated: analysis_2026-04-07.md","component":"report","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:09Z","level":"INFO","service":"crompressor-sinapse","message":"CDC engine initialized","component":"cdc","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:10Z","level":"INFO","service":"crompressor-sinapse","message":"Processing file: utils.go","component":"analyzer","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:11Z","level":"DEBUG","service":"crompressor-sinapse","message":"Chunk hash collision resolved","component":"codebook","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:12Z","level":"INFO","service":"crompressor-sinapse","message":"Codebook loaded: 15000 entries","component":"codebook","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:13Z","level":"INFO","service":"crompressor-sinapse","message":"Server started on port 8080","component":"http","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:14Z","level":"ERROR","service":"crompressor-sinapse","message":"Failed to read file: permission denied","component":"analyzer","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:15Z","level":"INFO","service":"crompressor-sinapse","message":"Analysis complete: 95 chunks, 60 unique","component":"analyzer","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:16Z","level":"INFO","service":"crompressor-sinapse","message":"CDC engine initialized","component":"cdc","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:17Z","level":"INFO","service":"crompressor-sinapse","message":"Report generated: analysis_2026-04-07.md","component":"report","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:18Z","level":"INFO","service":"crompressor-sinapse","message":"Codebook loaded: 15000 entries","component":"codebook","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:19Z","level":"DEBUG","service":"crompressor-sinapse","message":"Processing file: main.go","component":"analyzer","version":"1.0.0"}
+{"timestamp":"2026-04-07T12:00:20Z","level":"INFO","service":"crompressor-sinapse","message":"Server started on port 8080","component":"http","version":"1.0.0"}

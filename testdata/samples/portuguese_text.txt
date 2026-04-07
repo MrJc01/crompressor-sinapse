@@ -1,0 +1,19 @@
+O Crompressor-Sinapse é um projeto de pesquisa que investiga a fusão entre o motor de compressão semântica Crompressor e o ciclo de treinamento e inferência de redes neurais. A tese central é que compressão e inteligência são o mesmo processo matemático.
+
+Na ciência da computação teórica, existe uma máxima que dita o ritmo da pesquisa em inteligência artificial: se você consegue prever ou modelar perfeitamente a estrutura de um conjunto de dados, você o comprime ao máximo absoluto. Essa é a essência do que chamamos de compressão semântica.
+
+O motor Crompressor original opera com Content-Defined Chunking, Codebooks construídos dinamicamente e cálculos baseados em deltas e XOR. Ele ataca a redundância estrutural determinística no nível do byte. Redes neurais tradicionais, por outro lado, gastam energia colossal atacando a redundância estatística através de matrizes contínuas de ponto flutuante.
+
+O Crompressor-Sinapse propõe trazer a arquitetura do Crompressor para dentro do ciclo de treinamento e inferência de redes neurais. As mesmas primitivas de compressão — chunking, lookup no codebook, cálculo de delta — podem substituir operações custosas dentro da rede neural.
+
+A primeira frente de pesquisa é a tokenização semântica via CDC. Os LLMs atuais são alimentados por tokenizadores estatísticos como o Byte-Pair Encoding, que cortam palavras e blocos de código com base em frequências rígidas de pares de caracteres, ignorando completamente a estrutura lógica do dado.
+
+O Content-Defined Chunking usa rolling hash para encontrar fronteiras naturais no texto. Em vez de cortar palavras em fragmentos arbitrários, o CDC corta conceitos. Uma declaração de função inteira pode se tornar um único token semântico.
+
+A segunda frente é o Forward Pass Diferencial. Se o Crompressor não reescreve bytes que já conhece, por que a rede neural deveria recomputar ativações que já calculou? O cache de ativações indexado por hash CDC permite reutilizar computações anteriores.
+
+A terceira frente é o treinamento por XOR Delta. Em vez de atualizar matrizes gigantes de pesos, os neurônios aprendem apenas um mapa de deltas sobre um Codebook base de pesos. Isso funciona como uma versão discreta do LoRA.
+
+A quarta frente é a Vector Quantization nos neurônios. Em vez de vetores contínuos de ponto flutuante, os neurônios mapeiam suas saídas para o vetor mais próximo de um Codebook interno, criando um alfabeto discreto de conceitos semânticos.
+
+Todas essas frentes compartilham o mesmo princípio: não reprocessar informação que o sistema já conhece. Referência ao que já foi visto. Transmissão apenas da diferença. Compressão como cognição.

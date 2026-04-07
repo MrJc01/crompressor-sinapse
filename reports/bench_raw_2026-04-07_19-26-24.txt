@@ -1,0 +1,22 @@
+?   	github.com/MrJc01/crompressor-sinapse/cmd/sinapse	[no test files]
+PASS
+ok  	github.com/MrJc01/crompressor-sinapse/internal/analyzer	0.134s
+goos: linux
+goarch: amd64
+pkg: github.com/MrJc01/crompressor-sinapse/internal/cdc
+cpu: Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
+BenchmarkTokenize_1KB-4     	   62281	    123051 ns/op	   8.78 MB/s	     720 B/op	       4 allocs/op
+BenchmarkTokenize_100KB-4   	    1160	   5120095 ns/op	  20.31 MB/s	   64849 B/op	      10 allocs/op
+BenchmarkRabinRoll-4        	261817365	        44.34 ns/op	       0 B/op	       0 allocs/op
+BenchmarkHashBytes-4        	13756896	       543.9 ns/op	 235.34 MB/s	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/MrJc01/crompressor-sinapse/internal/cdc	41.578s
+goos: linux
+goarch: amd64
+pkg: github.com/MrJc01/crompressor-sinapse/internal/codebook
+cpu: Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
+BenchmarkCodebook_Insert-4   	45069703	       192.9 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/MrJc01/crompressor-sinapse/internal/codebook	8.853s
+PASS
+ok  	github.com/MrJc01/crompressor-sinapse/internal/report	0.062s
