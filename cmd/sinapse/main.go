@@ -46,6 +46,7 @@ para tokenização semântica de texto e código-fonte.
 	rootCmd.AddCommand(reportCmd())
 	rootCmd.AddCommand(inferCmd())
 	rootCmd.AddCommand(trainCmd())
+	rootCmd.AddCommand(serveCmd())
 
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
