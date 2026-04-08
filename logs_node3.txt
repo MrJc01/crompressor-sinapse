@@ -1,6 +1,0 @@
-🌀 Inicializando Crompressor-Sinapse Daemon Core (Node: NO-03)...
-
-2026/04/07 20:41:51 🚀 Crompressor-Sinapse Daemon em background rodando O(1) Neural State...
-2026/04/07 20:41:51 📡 Endpoint da API Aberto na Porta: 8083
-2026/04/07 20:41:51 🔗 Proxyfying LLM para C++ LlamaCore em: http://127.0.0.1:9090
-2026/04/07 20:41:54 [P2P Mesh] BINGO! Recebeu vetor latente O(1) resolvido pelo nó: NO-02
