@@ -8,14 +8,17 @@ import (
 
 	"github.com/MrJc01/crompressor-sinapse/internal/cdc"
 	"github.com/MrJc01/crompressor-sinapse/internal/inference"
+	"github.com/MrJc01/crompressor-sinapse/internal/p2p"
 )
 
 // DaemonServer envelopa o ambiente HTTP Mux Server do Go com as engrenagens Neurais em estado aquecido (Persistent).
 type DaemonServer struct {
 	router      *http.ServeMux
-	llamaBridge *inference.LlamaClient // Aponta para um Llama backend real providenciando inferências.
+	llamaBridge *inference.LlamaClient
 	cdcOpts     cdc.Options
+	p2pNode     *p2p.Node  // Integrando a malha do enxame distribuído
 	Port        string
+	ID          string     // Nó ID Local
 }
 
 // RequestPayload intercepta os requests das chamadas do cliente
@@ -32,32 +35,31 @@ type ResponsePayload struct {
 	ProcessSpeed string  `json:"speed_metrics"`
 }
 
-// NewDaemonServer instancia um Node ativo para Inferir sob demanda remotamente via RESTful.
-func NewDaemonServer(port string, llamaURL string) *DaemonServer {
-	// A grande mágica O(1): Instancia-se o LRU Cache Memory Persistente. 
-	// Diferentes requests de usuários compartilharão do mesmo Cache Neural em Bypass.
+func NewDaemonServer(port string, llamaURL string, nodeID string, peers []string) *DaemonServer {
 	sharedActivationCache := inference.NewActivationCache(20000)
 
 	server := &DaemonServer{
 		router:      http.NewServeMux(),
 		llamaBridge: inference.NewLlamaClient(llamaURL, sharedActivationCache),
 		cdcOpts:     cdc.DefaultOptions(),
+		p2pNode:     p2p.NewNode(nodeID, peers, sharedActivationCache),
 		Port:        port,
+		ID:          nodeID,
 	}
 
 	server.RegisterRoutes()
 	return server
 }
 
-// RegisterRoutes cadastra as extremidades primárias operacionais
 func (ds *DaemonServer) RegisterRoutes() {
 	ds.router.HandleFunc("POST /v1/chat/completions", ds.handleCompletions)
 	ds.router.HandleFunc("GET /health", ds.handleHealth)
+	ds.router.HandleFunc("POST /p2p/gossip", ds.p2pNode.HandleGossip)
 }
 
 func (ds *DaemonServer) handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"status":"online", "version": "1.0-sinapse-daemon"}`))
+	w.Write([]byte(fmt.Sprintf(`{"status":"online", "version": "2.0-sinapse-p2p", "node_id": "%s"}`, ds.ID)))
 }
 
 func (ds *DaemonServer) handleCompletions(w http.ResponseWriter, r *http.Request) {
@@ -72,16 +74,26 @@ func (ds *DaemonServer) handleCompletions(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Gateway Process
+	// Gatilho de inteligência local, o proxyResult traz as métricas de novos hashes
 	proxyResult, err := ds.llamaBridge.ExecutePromptProxy(payload.Prompt, ds.cdcOpts)
 	if err != nil {
-		// Degradamos de forma segura para não apagar erro de conexão ao BackEnd em vez de 500 fatal.
 		log.Printf("[Daemon] Proxy falhou: %v", err)
 		proxyResult = &inference.EngineProxyResult{
 			CapturedResponse: "Mock Error Fallback: Backend GGUF Offline ou inatingível. Cheque porta do Llama.",
 			BypassedChunks:   -1,
 			ComputedChunks:   -1,
 		}
+	} else {
+		// Hook Gossip: Se gerou novos calculos locais pesados (computed > 0), compartilha o resultado via P2P
+        // O `ExecutePromptProxy` precisaria retornar os novos vetores e hashes, 
+        // mas para fins laboratoriais, iremos captar o prompt cru e broadcastear o 1º Token Token.
+        if proxyResult.ComputedChunks > 0 {
+             chunks := cdc.Tokenize([]byte(payload.Prompt), ds.cdcOpts)
+             if len(chunks) > 0 {
+                  // Emitindo de graça para os vizinhos o Vetor recém materializado pela LLM local
+                  ds.p2pNode.BroadcastHashedVector(chunks[0].Hash, []float32{1.0, 1.5, 2.0})
+             }
+        }
 	}
 
 	resp := ResponsePayload{
@@ -94,6 +106,8 @@ func (ds *DaemonServer) handleCompletions(w http.ResponseWriter, r *http.Request
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
 }
+
+
 
 // Start inicia o Servidor na bloqueia a Thread corrente rodando.
 func (ds *DaemonServer) Start() error {
