@@ -1,0 +1,6 @@
+
+# Artefatos de Treinamento e Binários
+/treinamento/brain.crom
+/treinamento/bin/
+/treinamento/*.json
+/treinamento/dataset_*.txt

@@ -1,0 +1,3 @@
+o nucleo purista em golang 
+o projeto crompressor opera via swarm
+o treinamento de backprop euclidiano puro finalizado
